@@ -41,33 +41,43 @@
         </div>
     </header>
 
+    <?php  
+
+    if(isset($_SESSION["not_enough_chars"])){
+        echo '<h2 style="color: black; background-color: red;"><center> AT LEAST 5 CHARACTERS TO SUBMIT POST </center></h2>';
+    }
+
+    ?>
+    
+
     <div class="wrapper" style="background-color: aquamarine;">
-            
+            <!-- PHP Code to show THREADS -->
             <?php
-            
+                    #Stores the DATABASE in a local ASSOCIATIVE ARRAY
                     include_once "searchDB.php";
                     $database = getThreads();
-                    $thread_info;
+
                     $idx = 0;
-                    /*
-                    while($idx < sizeof($database)){
-                        echo "[$idx]" . $database[$idx][0] . "<br>";
-                        $idx++;
-                    }*/
+
+                    #Check is user is LOGGED or not
                     if(!isset($_SESSION["username"])){
                         echo "LOG IN TO SEE THREADS";
                         die;
                     }
-                    if(sizeof($database) == 0 || isset($_SESSION["username"]) == false){
+
+                    #Check if the DATABASE has any THREADS at all
+                    if(sizeof($database) == 0){
                         echo "[NO THREADS POSTED YET]";
                     }
                     while($idx < sizeof($database)){ ?>
             <div class="wrapper">
                 <?php
-                    
+
+                    #Retrieves from DATABASE the needed DATA
                     echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
-                    echo $database[$idx]["thread_text"] . "<br>";
+                    echo "' " . $database[$idx]["thread_text"] . " '<br>";
                     echo $database[$idx]["thread_date"] . "<br>";
+
                     $idx++;
                 ?>
             </div>
@@ -89,26 +99,35 @@
 </html>
 
 <?php
-    
+    #SuperGlobal variable used to check if the text inserted is enough or not
+    $_SESSION["not_enough_chars"] = NULL;
+
     if(isset($_POST["post"])){
         
         $text = $_POST["text"];
 
-        include_once "searchDB.php";
-        $user_id = getUserID($_SESSION["username"]);
+        if(strlen($text) < 5){
+            $_SESSION["not_enough_chars"] = true;
+            header("Location: homepage.php");
+        }else{
+            $_SESSION["not_enough_chars"] = NULL;
 
-        $today = date("Y-m-d");
+            #Retrieving from the DATABASE the USER info to attach them to the THREAD that
+            #is getting  created
+            include_once "searchDB.php";
+            $user_id = getUserID($_SESSION["username"]);
+    
+            $today = date("Y-m-d");
+    
+            include_once "db_connection.php";
+            $connection = connectToDB("website1");
+    
+            #Creating and adding a THREAD with all the needed information
+            $sql = "INSERT INTO thread (user_id, thread_text, thread_date) VALUES ('$user_id','$text','$today')";
+            $result = mysqli_query($connection,$sql);
 
-        include_once "db_connection.php";
-        $connection = connectToDB("website1");
+            header("Location: homepage.php");
 
-
-        $sql = "INSERT INTO thread (user_id, thread_text, thread_date) VALUES ('$user_id','$text','$today')";
-        $result = mysqli_query($connection,$sql);
-        header("Location: homepage.php");
-        var_dump($result);
-        echo $result . "caio";
-    }else{
-        echo "NON";
+        }
     }
 ?>

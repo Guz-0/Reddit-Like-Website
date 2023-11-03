@@ -1,5 +1,7 @@
 <?php
 
+    ### TESTING FILE WHERE IT'S POSSIBLE TO TEST FEATURE BEFORE ADDING THEM ###
+
     function rand_1(){
         $today = date("Y-m-d");
         echo $today;
@@ -64,7 +66,6 @@
         return $info;
     }
 
-    getThreads(1)
 
     
     

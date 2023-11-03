@@ -1,5 +1,8 @@
 <?php
 
+
+    ### EVERY FUNCTION DOES WHAT THE ITS NAME SAYS ###
+
     function searchCombo($username,$password){
         include_once "db_connection.php";
         $connection = connectToDB("website1");
