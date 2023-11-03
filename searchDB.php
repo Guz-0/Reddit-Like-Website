@@ -79,9 +79,9 @@
         include_once "db_connection.php";
         $connection = connectToDB("website1");
 
-        $sql = "SELECT thread_text FROM thread";
+        $sql = "SELECT * FROM thread";
         $result = mysqli_query($connection,$sql);
-        $db = mysqli_fetch_all($result);
+        $db = mysqli_fetch_all($result,MYSQLI_ASSOC);
         return $db;
     }
 

@@ -54,23 +54,20 @@
                         echo "[$idx]" . $database[$idx][0] . "<br>";
                         $idx++;
                     }*/
-            while($idx <= sizeof($database)){ ?>
+                    if(!isset($_SESSION["username"])){
+                        echo "LOG IN TO SEE THREADS";
+                        die;
+                    }
+                    if(sizeof($database) == 0 || isset($_SESSION["username"]) == false){
+                        echo "[NO THREADS POSTED YET]";
+                    }
+                    while($idx < sizeof($database)){ ?>
             <div class="wrapper">
                 <?php
-                    if(getThreadInfo($idx+1) != NULL){
-                        try {
-                            $thread_info = getThreadInfo($idx+1);
-                            echo "From: " . whoPosted($idx+1) . "<br>";
-        
-                            echo "[". ($idx+1) . "] " . $thread_info["thread_text"] . "<br>";
-                            echo "";
-                        } catch (\Throwable $e) {
-                            echo "ERROR";
-                        }
-                    }else{
-                        echo "POST ELIMINATED";
-                    }
                     
+                    echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
+                    echo $database[$idx]["thread_text"] . "<br>";
+                    echo $database[$idx]["thread_date"] . "<br>";
                     $idx++;
                 ?>
             </div>

@@ -24,8 +24,8 @@
         
         <div class="divs">
             <input type="submit" name="submit"><br>
-            <label for="">Not registered? Register <a href="register.php">HERE</a></label>
-            
+            <label for="">Not registered? Register <a href="register.php">HERE</a></label><br>
+            <a href="homepage.php">HOMEPAGE</a>
         </div>
 
     </form>
