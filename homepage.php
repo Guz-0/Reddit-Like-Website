@@ -45,6 +45,7 @@
 
     if(isset($_SESSION["not_enough_chars"])){
         echo '<h2 style="color: black; background-color: red;"><center> AT LEAST 5 CHARACTERS TO SUBMIT POST </center></h2>';
+        #im in hashing password
     }
 
     ?>
