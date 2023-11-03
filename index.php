@@ -41,17 +41,8 @@
 
     session_start();
     session_destroy();
-    
 
-    //var_dump("gian" == $username_from_db);
-
-    /*if(serachCombo("gian","",$usernames)){
-        echo "<br>found<br>";
-
-    }else{
-        echo "<br>not<br>";
-    }*/
-
+    #Checking if the LOGIN DATA is right and then redirecting the USER to the HOMEPAGE
     if(isset($_POST["submit"])){
 
         session_start();

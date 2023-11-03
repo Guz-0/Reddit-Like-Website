@@ -1,5 +1,6 @@
 <?php
 
+    #Connecting to the DATABASE
     function connectToDB($dbName){
         $hostname_db = "localhost";
         $username_db = "root";
