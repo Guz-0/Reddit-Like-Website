@@ -102,7 +102,7 @@ function whoPosted($thread_id)
     $connection = connectToDB("website1");
 
     try {
-        $sql = "SELECT user_id FROM thread WHERE thread_id = '$thread_id'";
+        $sql = "SELECT thread_user_id FROM thread WHERE thread_id = '$thread_id'";
         $result = mysqli_query($connection, $sql);
         $user_id = mysqli_fetch_all($result);
 
@@ -146,7 +146,7 @@ function getThreadInfo($thread_id)
 
     if (isset($db[0]['thread_id'])) {
         $info["thread_id"] = $db[0]['thread_id'];
-        $info["user_id"] = $db[0]['user_id'];
+        $info["user_id"] = $db[0]['thread_user_id'];
         $info["thread_text"] = $db[0]['thread_text'];
         $info["thread_date"] = $db[0]['thread_date'];
     } else {

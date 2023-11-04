@@ -37,3 +37,8 @@ body{
     align-items: center;
     font-size: 40px;
 }
+
+.p-thread{
+    text-align: left;
+    margin-left: 15px;
+}

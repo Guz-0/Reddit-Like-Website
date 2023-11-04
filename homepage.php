@@ -53,7 +53,7 @@ session_start();
     ?>
 
 
-    <div class="wrapper" style="background-color: aquamarine;">
+    <div class="wrapper" style="background-color: aquamarine; width:auto;">
         <!-- PHP Code to show THREADS -->
         <?php
         #Stores the DATABASE in a local ASSOCIATIVE ARRAY
@@ -73,15 +73,16 @@ session_start();
             echo "[NO THREADS POSTED YET]";
         }
         while ($idx < sizeof($database)) { ?>
-            <div class="wrapper">
+            <div class="wrapper-header">
                 <?php
 
                 #Retrieves from DATABASE the needed DATA
-                echo '<p style="text-align: left;">' . "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</p>';
+
+                echo '<p class="p-thread">' . "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</p>';
                 #echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
-                echo "' " . $database[$idx]["thread_text"] . " '<br>";
+                echo '<p class="p-thread"> ' . $database[$idx]["thread_text"] . '<br></p>';
                 #echo '<p style="text-align: right;>' . $database[$idx]["thread_date"] . "<br>" . '</p>';
-                echo '<p style="text-align: right;">' . $database[$idx]["thread_date"] . "<br>" . '</p>';
+                echo '<p style="text-align: right; margin-right: 15px;">' . $database[$idx]["thread_date"] . "<br>" . '</p>';
 
                 $idx++;
                 ?>
@@ -129,7 +130,7 @@ if (isset($_POST["post"])) {
         $connection = connectToDB("website1");
 
         #Creating and adding a THREAD with all the needed information
-        $sql = "INSERT INTO thread (user_id, thread_text, thread_date) VALUES ('$user_id','$text','$today')";
+        $sql = "INSERT INTO thread (thread_user_id, thread_text, thread_date) VALUES ('$user_id','$text','$today')";
         $result = mysqli_query($connection, $sql);
 
         header("Location: homepage.php");
