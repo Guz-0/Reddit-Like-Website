@@ -47,6 +47,7 @@ session_start();
 
     if (isset($_SESSION["not_enough_chars"])) {
         echo '<h2 style="color: black; background-color: red;"><center> AT LEAST 5 CHARACTERS TO SUBMIT POST </center></h2>';
+        #im in hashing password
     }
 
     ?>
@@ -76,9 +77,11 @@ session_start();
                 <?php
 
                 #Retrieves from DATABASE the needed DATA
-                echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
+                echo '<p style="text-align: left;">' . "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</p>';
+                #echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
                 echo "' " . $database[$idx]["thread_text"] . " '<br>";
-                echo $database[$idx]["thread_date"] . "<br>";
+                #echo '<p style="text-align: right;>' . $database[$idx]["thread_date"] . "<br>" . '</p>';
+                echo '<p style="text-align: right;">' . $database[$idx]["thread_date"] . "<br>" . '</p>';
 
                 $idx++;
                 ?>
