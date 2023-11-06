@@ -12,6 +12,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <title></title>
 </head>
 
 <body>
@@ -53,7 +54,9 @@ session_start();
     ?>
 
 
-    <div class="wrapper" style="background-color: aquamarine;">
+
+
+    <div class="wrapper" style="background-color: aquamarine; width:auto;">
         <!-- PHP Code to show THREADS -->
         <?php
         #Stores the DATABASE in a local ASSOCIATIVE ARRAY
@@ -73,15 +76,16 @@ session_start();
             echo "[NO THREADS POSTED YET]";
         }
         while ($idx < sizeof($database)) { ?>
-            <div class="wrapper">
+            <div class="wrapper-header">
                 <?php
 
                 #Retrieves from DATABASE the needed DATA
-                echo '<p style="text-align: left;">' . "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</p>';
+
+                echo '<p class="p-thread">' . "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</p>';
                 #echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
-                echo "' " . $database[$idx]["thread_text"] . " '<br>";
+                echo '<p class="p-thread"> ' . $database[$idx]["thread_text"] . '<br></p>';
                 #echo '<p style="text-align: right;>' . $database[$idx]["thread_date"] . "<br>" . '</p>';
-                echo '<p style="text-align: right;">' . $database[$idx]["thread_date"] . "<br>" . '</p>';
+                echo '<p style="text-align: right; margin-right: 15px;">' . $database[$idx]["thread_date"] . "<br>" . '</p>';
 
                 $idx++;
                 ?>
@@ -106,7 +110,7 @@ session_start();
 
 <?php
 #SuperGlobal variable used to check if the text inserted is enough or not
-$_SESSION["not_enough_chars"] = NULL;
+unset($_SESSION["not_enough_chars"]);
 
 if (isset($_POST["post"])) {
 
@@ -116,12 +120,13 @@ if (isset($_POST["post"])) {
         $_SESSION["not_enough_chars"] = true;
         header("Location: homepage.php");
     } else {
-        $_SESSION["not_enough_chars"] = NULL;
+        unset($_SESSION["not_enough_chars"]);
 
         #Retrieving from the DATABASE the USER info to attach them to the THREAD that
         #is getting  created
         include_once "searchDB.php";
         $user_id = getUserID($_SESSION["username"]);
+        $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_SPECIAL_CHARS);
 
         $today = date("Y-m-d");
 
@@ -129,7 +134,7 @@ if (isset($_POST["post"])) {
         $connection = connectToDB("website1");
 
         #Creating and adding a THREAD with all the needed information
-        $sql = "INSERT INTO thread (user_id, thread_text, thread_date) VALUES ('$user_id','$text','$today')";
+        $sql = "INSERT INTO thread (thread_user_id, thread_text, thread_date) VALUES ('$user_id','$text','$today')";
         $result = mysqli_query($connection, $sql);
 
         header("Location: homepage.php");
