@@ -12,6 +12,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <title></title>
 </head>
 
 <body>
@@ -51,6 +52,8 @@ session_start();
     }
 
     ?>
+
+
 
 
     <div class="wrapper" style="background-color: aquamarine; width:auto;">
@@ -107,7 +110,7 @@ session_start();
 
 <?php
 #SuperGlobal variable used to check if the text inserted is enough or not
-$_SESSION["not_enough_chars"] = NULL;
+unset($_SESSION["not_enough_chars"]);
 
 if (isset($_POST["post"])) {
 
@@ -117,12 +120,13 @@ if (isset($_POST["post"])) {
         $_SESSION["not_enough_chars"] = true;
         header("Location: homepage.php");
     } else {
-        $_SESSION["not_enough_chars"] = NULL;
+        unset($_SESSION["not_enough_chars"]);
 
         #Retrieving from the DATABASE the USER info to attach them to the THREAD that
         #is getting  created
         include_once "searchDB.php";
         $user_id = getUserID($_SESSION["username"]);
+        $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_SPECIAL_CHARS);
 
         $today = date("Y-m-d");
 

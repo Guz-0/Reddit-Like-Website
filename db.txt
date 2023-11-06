@@ -1,0 +1,9 @@
+user_id : int(11) unsigned
+user_name
+user_password
+user_reg_date
+
+thread_id
+thread_user_id : int(11) unsigned
+thread_text
+thread_date

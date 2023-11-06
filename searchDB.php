@@ -109,7 +109,7 @@ function whoPosted($thread_id)
         if (isset($user_id[0][0])) {
             $user_id_converted = $user_id[0][0];
         } else {
-            return false;
+            return "USER ELIMINATED";
         }
 
 
