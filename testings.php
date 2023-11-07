@@ -35,6 +35,8 @@ function f2($thread_id)
     $result = mysqli_query($connection, $sql);
     $user_name = mysqli_fetch_all($result);
     $user_name_converted = $user_name[0][0];
+
+    mysqli_close($connection);
     return $user_name_converted;
 }
 
@@ -45,8 +47,10 @@ function getUserID($user_name)
 
     $sql = "SELECT user_id FROM user WHERE user_name = '$user_name'";
     $result = mysqli_query($connection, $sql);
-    $fetched_result = mysqli_fetch_all($result);
-    var_dump($fetched_result[0][0]);
+    $fetchedResult = mysqli_fetch_all($result);
+
+    mysqli_close($connection);
+    var_dump($fetchedResult[0][0]);
 }
 
 //INSERT INTO `thread` (`thread_id`, `user_id`, `thread_text`, `thread_date`) VALUES (NULL, '3', 'sdas', '2023-11-02')
@@ -65,6 +69,8 @@ function getThreads($thread_id)
     $info["thread_text"] = $db[0]['thread_text'];
     $info["thread_date"] = $db[0]['thread_date'];
 
+    mysqli_close($connection);
+
     return $info;
 }
 
@@ -79,6 +85,26 @@ function insertUser($us, $pw)
     $sql = "INSERT INTO user (user_id, user_name, user_password, user_reg_date) VALUES (NULL, '$us', '$pwHashed','$today')";
     mysqli_query($connection, $sql);
 
+    mysqli_close($connection);
+
     //var_dump(mysqli_store_result($connection,MYSQLI_STORE_RESULT_COPY_DATA));
     //echo $connection->error;
+}
+
+function getUserData($username)
+{
+    include_once "db_connection.php";
+    $connection = connectToDB("website1");
+
+    $sql = "SELECT * FROM user WHERE user_name = '$username'";
+    $result = mysqli_query($connection, $sql);
+    $fetchedResult = mysqli_fetch_assoc($result);
+
+    /*echo '<pre>';
+    print_r($fetchedResult);
+    echo $fetchedResult['user_id'];
+    echo '</pre>';*/
+
+    mysqli_close($connection);
+    return $fetchedResult;
 }

@@ -13,17 +13,18 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title></title>
+    <script src="scripts.js"></script>
 </head>
 
 <body>
 
-    <header class="wrapper-header">
+    <header class="wrapper-header" id="user_name">
         <div class="divs">
             <h1 style="text-align: left;">
                 <?php
 
-                if (isset($_SESSION["username"])) {
-                    echo "Hello " . $_SESSION["username"] . "!";
+                if (isset($_SESSION["user_name"])) {
+                    echo "Hello " . $_SESSION["user_name"] . "!";
                 } else {
                     echo "[YOU ARE NOT LOGGED IN] ";
                     echo '<a href="index.php">LOGIN PAGE</a>';
@@ -35,7 +36,7 @@ session_start();
             <h1 style="text-align: right;">
                 <?php
 
-                if (isset($_SESSION["username"])) {
+                if (isset($_SESSION["user_name"])) {
                     echo '<a href="index.php">LOGOUT</a>';
                 }
 
@@ -66,8 +67,9 @@ session_start();
         $idx = 0;
 
         #Check is user is LOGGED or not
-        if (!isset($_SESSION["username"])) {
+        if (!isset($_SESSION["user_name"])) {
             echo "LOG IN TO SEE THREADS";
+            echo "username" . $_SESSION["user_name"];
             die;
         }
 
@@ -76,12 +78,19 @@ session_start();
             echo "[NO THREADS POSTED YET]";
         }
         while ($idx < sizeof($database)) { ?>
-            <div class="wrapper-header">
+            <div class="wrapper-header" style="text-align: left;">
                 <?php
+                $userData = getUserData(whoPosted($database[$idx]["thread_id"]));
 
-                #Retrieves from DATABASE the needed DATA
+                echo '<div class="user-detail" id=' . $idx . ' style="display: none";>
+                    
+                    Username: ' . whoPosted($database[$idx]["thread_id"]) . '<br>' . 'Registration date: ' . $userData["user_reg_date"] .
 
-                echo '<p class="p-thread">' . "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</p>';
+                    '</div>';
+
+                #Retrieves from DATABASE the needed DATA 
+                echo '<span class="p-thread">' . "From" . '</span>';
+                echo '<span class="p-thread"  style="cursor: pointer; text-decoration: underline;" onclick="UserDetails(' . $idx . ' )">' . "[" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</span>';
                 #echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
                 echo '<p class="p-thread"> ' . $database[$idx]["thread_text"] . '<br></p>';
                 #echo '<p style="text-align: right;>' . $database[$idx]["thread_date"] . "<br>" . '</p>';
@@ -89,6 +98,7 @@ session_start();
 
                 $idx++;
                 ?>
+
             </div>
         <?php } ?>
     </div>
@@ -125,7 +135,7 @@ if (isset($_POST["post"])) {
         #Retrieving from the DATABASE the USER info to attach them to the THREAD that
         #is getting  created
         include_once "searchDB.php";
-        $user_id = getUserID($_SESSION["username"]);
+        $user_id = getUserID($_SESSION["user_name"]);
         $text = filter_input(INPUT_POST, "text", FILTER_SANITIZE_SPECIAL_CHARS);
 
         $today = date("Y-m-d");

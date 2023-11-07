@@ -42,3 +42,15 @@ body{
     text-align: left;
     margin-left: 15px;
 }
+
+.user-detail{
+    background-color: aquamarine;
+    border: 3px solid black;
+    padding: 10px;
+    width: fit-content;
+    margin: auto;
+    align-items: center;
+    text-align: center;
+    display: none;
+
+}

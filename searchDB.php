@@ -3,6 +3,8 @@
 
 ### EVERY FUNCTION DOES WHAT THE ITS NAME SAYS ###
 
+### NEED TO PUT mysqli_close($connection) AFTER FINISHING RETRIEVING DATA ###
+
 function searchCombo($username, $password)
 {
     include_once "db_connection.php";
@@ -155,4 +157,22 @@ function getThreadInfo($thread_id)
 
 
     return $info;
+}
+
+function getUserData($username)
+{
+    include_once "db_connection.php";
+    $connection = connectToDB("website1");
+
+    $sql = "SELECT * FROM user WHERE user_name = '$username'";
+    $result = mysqli_query($connection, $sql);
+    $fetchedResult = mysqli_fetch_assoc($result);
+
+    /*echo '<pre>';
+    print_r($fetchedResult);
+    echo $fetchedResult['user_id'];
+    echo '</pre>';*/
+
+    mysqli_close($connection);
+    return $fetchedResult;
 }
