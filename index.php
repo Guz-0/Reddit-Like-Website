@@ -59,18 +59,17 @@ if (isset($_POST["submit"])) {
         echo '<center style="padding: 20px;">FILL EVERY FIELD</center>';
     } else {
         if (searchCombo($username, $psw)) {
+            $userData = getUserData($username);
+
+
+            $_SESSION["user_name"] = $userData['user_name'];
+            $_SESSION["user_id"] = $userData['user_id'];
+            $_SESSION["user_reg_date"] = $userData['user_reg_date'];
             header('Location: homepage.php');
         } else {
             echo '<center style="padding: 20px;">USERNAME OR PASSWORD WRONG</center>';
         }
     }
-
-    $userData = getUserData($username);
-
-
-    $_SESSION["user_name"] = $userData['user_name'];
-    $_SESSION["user_id"] = $userData['user_id'];
-    $_SESSION["user_reg_date"] = $userData['user_reg_date'];
 } else {
     echo '<center style="padding: 20px;">NOT SUBMITTED YET</center>';
 }
