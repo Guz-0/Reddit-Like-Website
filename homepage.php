@@ -78,8 +78,10 @@ session_start();
             echo "[NO THREADS POSTED YET]";
         }
         while ($idx < sizeof($database)) { ?>
-            <div class="wrapper-header" style="text-align: left;">
+            <div class="wrapper-header" style="text-align: left;" id='<?php echo "divv" . $idx ?>'>
+
                 <?php
+
                 $userData = getUserData(whoPosted($database[$idx]["thread_id"]));
 
                 echo '<div class="user-detail" id=' . $idx . ' style="display: none";>
@@ -88,9 +90,26 @@ session_start();
 
                     '</div>';
 
-                #Retrieves from DATABASE the needed DATA 
+                #Retrieves from DATABASE the needed DATA
+
+                $parameters = $database[$idx]['thread_id'] . ',divv' . $idx;
+                if ($_SESSION["user_name"] == whoPosted($database[$idx]["thread_id"])) {
+                    $parameters = 'btn' . $idx;
+
+                    echo '<button onclick="DeleteThread(' . $parameters . ')" style="display: block; id="' . $parameters . '">U SURE?</button>';
+
+                    echo $parameters;
+
+                    echo '<h3 class="p-thread"  style="cursor: pointer; text-decoration: underline;" onclick="Toggle(' . $parameters . ')">DELETE</h3>';
+
+
+                    echo $database[$idx]["thread_id"] . ",div" . $idx;
+                }
+
+
+
                 echo '<span class="p-thread">' . "From" . '</span>';
-                echo '<span class="p-thread"  style="cursor: pointer; text-decoration: underline;" onclick="UserDetails(' . $idx . ' )">' . "[" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</span>';
+                echo '<span class="p-thread"  style="cursor: pointer; text-decoration: underline;" onclick="Toggle(' . $idx . ' )">' . "[" . whoPosted($database[$idx]["thread_id"]) . "]<br>" . '</span>';
                 #echo "From: [" . whoPosted($database[$idx]["thread_id"]) . "]<br>";
                 echo '<p class="p-thread"> ' . $database[$idx]["thread_text"] . '<br></p>';
                 #echo '<p style="text-align: right;>' . $database[$idx]["thread_date"] . "<br>" . '</p>';
