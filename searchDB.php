@@ -94,7 +94,8 @@ function getThreads()
     $sql = "SELECT * FROM thread";
     $result = mysqli_query($connection, $sql);
     $db = mysqli_fetch_all($result, MYSQLI_ASSOC);
-    return $db;
+
+    echo json_encode($db);
 }
 
 function whoPosted($thread_id)
@@ -175,4 +176,45 @@ function getUserData($username)
 
     mysqli_close($connection);
     return $fetchedResult;
+}
+
+function addThread($user_id, $thread_text)
+{
+    if (strlen($thread_text) < 5) {
+        echo "AT LEAST 5 CHARACTERS";
+        return "AT LEAST 5 CHARACTERS";
+    }
+
+    include_once "db_connection.php";
+
+    $response = false;
+
+    $today = date("Y-m-d");
+
+    $connection = connectToDB("website1");
+    $sql = "INSERT INTO thread (thread_user_id, thread_text, thread_date) VALUES ('$user_id','$thread_text','$today')";
+    $result = mysqli_query($connection, $sql);
+    if ($result) {
+        $response = "DATA SENT CORRECTLY";
+    } else {
+        $response = "DATA NOT SENT";
+    }
+
+    echo $response;
+}
+
+if (isset($_GET["action"])) {
+    switch ($_GET["action"]) {
+        case "searchCombo":
+            searchCombo($_GET["username"], $_GET["password"]);
+            break;
+
+        case "getThreads":
+            getThreads();
+            break;
+
+        case "addThread":
+            addThread($_GET["user_id"], $_GET["thread_text"]);
+            break;
+    }
 }

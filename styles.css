@@ -38,9 +38,24 @@ body{
     font-size: 40px;
 }
 
-.p-thread{
+.user{
     text-align: left;
+    font-size: 30px;
+    font-style: italic;
+    font-weight: bold;
     margin-left: 15px;
+}
+
+.text{
+    text-align: left;
+    font-size: 25px;
+    margin-left: 15px;
+}
+
+.date{
+    text-align: right;
+    font-size: 25px;
+    margin-right: 15px;
 }
 
 .user-detail{
