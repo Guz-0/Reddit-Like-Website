@@ -1,7 +1,7 @@
-# PHP Test 1
+# PHP Test
 
-This is the first test of using PHP/SQL into a website
+Test of using PHP/SQL into a website
 
-# Descriptoion
+# Description
 
 On the website you can login, registrate, post threads, see information about who posted the thread.
